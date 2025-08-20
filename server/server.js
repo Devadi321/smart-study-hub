@@ -1,13 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const subjectRoutes = require('./routes/subjects'); // <-- IMPORT THE NEW ROUTES
+const cors = require('cors'); // Your new line
+const subjectRoutes = require('./routes/subjects');
 
 const app = express();
 const PORT = 3000;
 const mongoURI = process.env.MONGO_URI;
 
-app.use(express.json()); // Allows our app to understand JSON
+// --- Middleware ---
+app.use(cors()); // Your new line
+app.use(express.json());
 
 // --- Database Connection ---
 const connectDB = async () => {
@@ -19,11 +22,11 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
 connectDB();
 
 // --- Routes ---
-// Any request to /api/subjects will be handled by our new routes file
-app.use('/api/subjects', subjectRoutes); // <-- USE THE NEW ROUTES
+app.use('/api/subjects', subjectRoutes);
 
 // --- Start Server ---
 app.listen(PORT, () => {
