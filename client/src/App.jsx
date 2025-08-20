@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// I've put the URL in a variable to avoid typos!
 const API_URL = 'http://localhost:3000/api/subjects';
 
 function App() {
@@ -11,7 +10,7 @@ function App() {
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const response = await axios.get(API_URL); // <-- FIXED URL
+        const response = await axios.get(API_URL);
         setSubjects(response.data);
       } catch (error) {
         console.error("Failed to fetch subjects:", error);
@@ -22,10 +21,10 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!newSubjectName) return;
     try {
-      const response = await axios.post(API_URL, { name: newSubjectName }); // <-- FIXED URL
+      const response = await axios.post(API_URL, { name: newSubjectName });
       setSubjects([...subjects, response.data]);
-            console.log('Data received from API:', response.data);
       setNewSubjectName('');
     } catch (error) {
       console.error("Failed to create subject:", error);
@@ -34,7 +33,7 @@ function App() {
 
   const handleDelete = async (idToDelete) => {
     try {
-      await axios.delete(`${API_URL}/${idToDelete}`); // <-- FIXED URL
+      await axios.delete(`${API_URL}/${idToDelete}`);
       setSubjects(subjects.filter(subject => subject._id !== idToDelete));
     } catch (error) {
       console.error("Failed to delete subject:", error);
